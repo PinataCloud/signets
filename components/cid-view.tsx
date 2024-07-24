@@ -111,7 +111,7 @@ export function CidView({ data, cid }: any) {
   }
 
   function truncateString(str: string) {
-    if (!str.length > 30) {
+    if (str.length > 30) {
       return `${str.slice(0, 25)}...${str.slice(-5)}`;
     } else {
       return str;
