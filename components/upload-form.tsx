@@ -15,6 +15,8 @@ import { domain, types } from "@/utils/712";
 import { LoginButton } from "./login-button";
 import { Label } from "./ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { recoverPublicKey } from "viem";
+import { encrypt } from "@metamask/eth-sig-util";
 
 export function UploadForm() {
   const [selectedFile, setSelectedFile] = useState();
@@ -84,6 +86,19 @@ export function UploadForm() {
       });
       console.log(signature);
 
+      const publicKey = await recoverPublicKey({
+        hash: JSON.stringify(typedData) as "0x",
+        signature: signature,
+      });
+      console.log(publicKey);
+
+      const encrypted = encrypt({
+        data: JSON.stringify(selectedFile),
+        publicKey: publicKey.slice(2),
+        version: "x25519-xsalsa20-poly1305",
+      });
+      console.log(encrypted);
+
       const sign = await fetch("/api/sign", {
         method: "POST",
         headers: {
@@ -110,6 +125,21 @@ export function UploadForm() {
       setComplete(true);
     } catch (error) {
       setLoading(false);
+      console.log(error);
+    }
+  }
+
+  async function encryption() {
+    try {
+      const wallet = wallets[0];
+      await wallet.switchChain(1);
+      const provider = await wallet.getEthereumProvider();
+      const encryptionPublicKey = await window.ethereum.request({
+        method: "eth_getEncryptionPublicKey",
+        params: [wallet.address],
+      });
+      console.log(encryptionPublicKey);
+    } catch (error) {
       console.log(error);
     }
   }
@@ -142,6 +172,7 @@ export function UploadForm() {
               Upload
             </Button>
           )}
+          <Button onClick={encryption}>Encrypt</Button>
         </>
       )}
       {complete && (
