@@ -128,7 +128,7 @@ export function UploadForm() {
   }
 
   return (
-    <div className="flex flex-col gap-2 justify-center items-center">
+    <div className="flex flex-col gap-2 justify-center items-center w-full">
       {!complete && (
         <>
           <p className="my-6">
@@ -145,16 +145,17 @@ export function UploadForm() {
         </>
       )}
       {complete && (
-        <div className="flex flex-col gap-1 justify-center items-center my-4">
+        <div className="flex flex-col gap-1 justify-center items-center my-4 w-full">
           <CheckCircledIcon className="w-12 h-12 font-bold" />
           <h2 className="text-2xl font-bold">Upload Complete!</h2>
           <p>Share with the link below</p>
-          <div className="flex items-center space-x-2 mt-4">
-            <div className="grid flex-1 gap-2">
+          <div className="flex items-center space-x-2 mt-4 w-full">
+            <div className="grid gap-2 w-full">
               <Label htmlFor="link" className="sr-only">
                 Link
               </Label>
               <Input
+                className="w-full"
                 id="link"
                 defaultValue={`https://signets.cloud/content/${cid}`}
                 readOnly
@@ -176,7 +177,7 @@ export function UploadForm() {
               )}
             </Button>
           </div>
-          <Button onClick={reset} className="mt-4">
+          <Button onClick={reset} className="mt-4 w-full">
             Upload Another File
           </Button>
         </div>

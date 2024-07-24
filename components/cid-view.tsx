@@ -72,6 +72,7 @@ export function CidView({ data, cid }: any) {
 
   async function downloadFile() {
     try {
+      setLoading(true);
       const response = await fetch(
         `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${cid}`,
       );
@@ -95,8 +96,10 @@ export function CidView({ data, cid }: any) {
       // Clean up
       document.body.removeChild(link);
       URL.revokeObjectURL(blobUrl);
+      setLoading(false);
     } catch (error) {
       console.error("Error downloading file:", error);
+      setLoading(false);
       throw error;
     }
   }
@@ -106,6 +109,14 @@ export function CidView({ data, cid }: any) {
       <Button className="w-full" disabled>
         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
         Verifying...
+      </Button>
+    );
+  }
+  function DownloadingButton() {
+    return (
+      <Button className="flex-1" disabled>
+        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+        Downloading...
       </Button>
     );
   }
@@ -127,9 +138,13 @@ export function CidView({ data, cid }: any) {
           <p className="text-wrap">{truncateString(data[0].metadata.name)}</p>
         </div>
         <div className="flex gap-2 w-full mt-4">
-          <Button className="flex-1" onClick={downloadFile}>
-            Download
-          </Button>
+          {loading ? (
+            DownloadingButton()
+          ) : (
+            <Button className="flex-1" onClick={downloadFile}>
+              Download
+            </Button>
+          )}
           <DialogTrigger asChild>
             <Button className="flex-1">Verify</Button>
           </DialogTrigger>
