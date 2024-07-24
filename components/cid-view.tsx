@@ -146,6 +146,7 @@ export function CidView({ data, cid }: any) {
                 <>
                   <ExclamationTriangleIcon className="h-16 w-16" />
                   <h2 className="text-2xl font-bold">Not Verified</h2>
+                  <Button onClick={() => setComplete(false)}>Try Again</Button>
                 </>
               )}
             </>
