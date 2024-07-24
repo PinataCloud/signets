@@ -1,7 +1,0 @@
-
-      const valid = await verifyMessage({
-        address: wallet.address as `0x`,
-        message: message,
-        signature: signature as `0x`,
-      });
-      console.log("Verified: ", valid);

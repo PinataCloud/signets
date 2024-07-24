@@ -11,7 +11,7 @@ const cspHeader = `
     frame-ancestors 'none';
     child-src https://auth.privy.io https://verify.walletconnect.com https://verify.walletconnect.org;
     frame-src https://auth.privy.io https://verify.walletconnect.com https://verify.walletconnect.org https://challenges.cloudflare.com;
-    connect-src https://gray-envious-minnow-323.dev-mypinata.cloud https://dweb.mypinata.cloud http://localhost:3000/api/verify http://localhost:3000/api/sign http://localhost:3000/api/key https://auth.privy.io https://*.rpc.privy.systems wss://relay.walletconnect.com wss://relay.walletconnect.org wss://www.walletlink.org https://www.signets.cloud/api/verify https://www.signets.cloud/api/sign https://www.signets.cloud/api/key https://api.pinata.cloud/pinning/pinFileToIPFS https://www.signets.cloud/* https://api.devpinata.cloud/pinning/pinFileToIPFS;
+    connect-src https://gray-envious-minnow-323.dev-mypinata.cloud https://dweb.mypinata.cloud http://localhost:3000/api/verify http://localhost:3000/api/sign http://localhost:3000/api/key https://auth.privy.io https://*.rpc.privy.systems wss://relay.walletconnect.com wss://relay.walletconnect.org wss://www.walletlink.org https://www.signets.cloud/api/verify https://www.signets.cloud/api/sign https://www.signets.cloud/api/key https://api.pinata.cloud/pinning/pinFileToIPFS https://www.signets.cloud/* https://api.devpinata.cloud/pinning/pinFileToIPFS https://privy.www.signets.cloud;
     upgrade-insecure-requests;
 `;
 
