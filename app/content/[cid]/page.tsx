@@ -22,7 +22,6 @@ async function getData(cid: string) {
 export default async function Page({ params }: { params: { cid: string } }) {
   const cid = params.cid;
   const data = await getData(cid);
-  console.log(data);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-24 gap-24">
