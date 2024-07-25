@@ -18,9 +18,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const signature = signatureReq.headers.get("pinata-signature");
     console.log("signature: ", signature);
     // All the other information provided by our component
-    console.log("file date: ", body.date);
     console.log("address: ", body.address);
     console.log("cid: ", body.cid);
+    console.log("file date: ", body.date);
 
     // Recreate the message used in the signature
     const message = {
