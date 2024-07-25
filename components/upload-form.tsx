@@ -23,7 +23,7 @@ export function UploadForm() {
   const [cid, setCid] = useState("");
   const [copied, setCopied] = useState(false);
   const { ready, wallets } = useWallets();
-  const { authenticated } = usePrivy();
+  const { authenticated, signTypedData, user } = usePrivy();
   const { toast } = useToast();
 
   function reset() {
@@ -66,7 +66,7 @@ export function UploadForm() {
       const uploadData = await uploadFile(selectedFile, keys.JWT);
       const wallet = wallets[0];
       const message = {
-        address: wallet.address,
+        address: user?.wallet?.address,
         cid: uploadData.IpfsHash,
         date: uploadData.Timestamp,
       };
@@ -76,13 +76,18 @@ export function UploadForm() {
         types: types,
         message: message,
       };
-      await wallet.switchChain(1);
-      const provider = await wallet.getEthereumProvider();
-      const signature = await provider.request({
-        method: "eth_signTypedData_v4",
-        params: [wallet.address, JSON.stringify(typedData)],
-      });
-      console.log(signature);
+      let signature: any;
+      if (wallets[0] === undefined) {
+        signature = await signTypedData(typedData);
+      } else {
+        await wallet.switchChain(1);
+        const provider = await wallet.getEthereumProvider();
+        signature = await provider.request({
+          method: "eth_signTypedData_v4",
+          params: [wallet.address, JSON.stringify(typedData)],
+        });
+        console.log(signature);
+      }
 
       const sign = await fetch("/api/sign", {
         method: "POST",
