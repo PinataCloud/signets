@@ -9,18 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { GearIcon } from "@radix-ui/react-icons";
+import { wait } from "@/utils/wait";
 
 export function LoginButton() {
   const [copied, setCopied] = useState(false);
   const { ready, authenticated, login, user, logout } = usePrivy();
   // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
-
-  const wait = (milliseconds: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, milliseconds);
-    });
-  };
 
   function truncate(str: string | undefined) {
     if (str === undefined) {

@@ -15,6 +15,7 @@ import { domain, types } from "@/utils/712";
 import { LoginButton } from "./login-button";
 import { Label } from "./ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { wait } from "@/utils/wait";
 
 export function UploadForm() {
   const [selectedFile, setSelectedFile] = useState();
@@ -31,12 +32,6 @@ export function UploadForm() {
     setComplete(false);
     setCid("");
   }
-
-  const wait = (milliseconds: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, milliseconds);
-    });
-  };
 
   async function copyToClipboard(text: any) {
     navigator.clipboard
