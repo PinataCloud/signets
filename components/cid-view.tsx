@@ -22,6 +22,7 @@ import { useToast } from "./ui/use-toast";
 
 export function CidView({ data, cid }: any) {
   const [loading, setLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
   const [complete, setComplete] = useState(false);
   const [verified, setVerified] = useState(false);
   const [address, setAddress] = useState("");
@@ -33,7 +34,8 @@ export function CidView({ data, cid }: any) {
 
   async function verifyContent() {
     try {
-      setLoading(true);
+      setVerifyLoading(true);
+      // Check that the provided address is valid
       const validAddress = isAddress(address);
       if (!validAddress) {
         toast({
@@ -43,6 +45,7 @@ export function CidView({ data, cid }: any) {
         setLoading(false);
         return;
       }
+      // API call to verify the content
       const verifyReq = await fetch("/api/verify", {
         method: "POST",
         headers: {
@@ -51,6 +54,7 @@ export function CidView({ data, cid }: any) {
         body: JSON.stringify({
           cid: cid,
           address: address,
+          date: data[0].date_pinned,
         }),
       });
       if (!verifyReq.ok) {
@@ -62,11 +66,11 @@ export function CidView({ data, cid }: any) {
       const verifyData = await verifyReq.json();
       console.log(verifyData);
       setVerified(verifyData);
-      setLoading(false);
+      setVerifyLoading(false);
       setComplete(true);
     } catch (error) {
       console.log(error);
-      setLoading(false);
+      setVerifyLoading(false);
     }
   }
 
@@ -177,7 +181,7 @@ export function CidView({ data, cid }: any) {
                 placeholder="Wallet Address"
                 onChange={handleAddress}
               />
-              {loading ? (
+              {verifyLoading ? (
                 ButtonLoading()
               ) : (
                 <Button className="w-full" onClick={verifyContent}>

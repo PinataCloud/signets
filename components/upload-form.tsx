@@ -58,23 +58,28 @@ export function UploadForm() {
       setLoading(true);
       const accessToken: string | null = await getAccessToken();
       const keys = await generatePinataKey(accessToken);
+      // Upload the selected file
       const uploadData = await uploadFile(selectedFile, keys.JWT);
       const wallet = wallets[0];
+      // Prepare the message to be signed
       const message = {
         address: user?.wallet?.address,
         cid: uploadData.IpfsHash,
         date: uploadData.Timestamp,
       };
+      // Prepare the sign data payload
       const typedData = {
         primaryType: "Sign",
         domain: domain,
         types: types,
         message: message,
       };
-      let signature: any;
+      let signature: string;
       if (wallets[0] === undefined) {
+        // sign with privy's embedded wallets
         signature = await signTypedData(typedData);
       } else {
+        // sign with user's connected wallet
         await wallet.switchChain(1);
         const provider = await wallet.getEthereumProvider();
         signature = await provider.request({
@@ -84,6 +89,7 @@ export function UploadForm() {
         console.log(signature);
       }
 
+      // Make API call to register signature with CID with Pinata
       const sign = await fetch("/api/sign", {
         method: "POST",
         headers: {

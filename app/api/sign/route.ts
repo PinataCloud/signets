@@ -13,6 +13,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return new Response("Unauthorized", { status: 401 });
   }
   try {
+    // API call to add signature to CID
     const postSignature = await fetch(
       `${process.env.NEXT_PUBLIC_PINATA_URL}/v3/ipfs/signature/${body.IpfsHash}`,
       {

@@ -7,15 +7,8 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body = await req.json();
-
-  // const authToken =
-  //   req?.headers?.get("authorization")?.replace("Bearer ", "") || "";
-
-  // const verified = await verifySession(authToken);
-  // if (!verified) {
-  //   return new Response("Unauthorized", { status: 401 });
-  // }
   try {
+    // Get signature via the gateway
     const signatureReq = await fetch(
       `https://${process.env.GATEWAY_URL}/ipfs/${body.cid}`,
       {
@@ -24,30 +17,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
     );
     const signature = signatureReq.headers.get("pinata-signature");
     console.log("signature: ", signature);
-
-    const fileReq = await fetch(
-      `${process.env.NEXT_PUBLIC_PINATA_URL}/data/pinList?status=pinned&includesCount=false&cid=${body.cid}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.PINATA_JWT}`,
-        },
-      },
-    );
-    const fileData = await fileReq.json();
-    const fileDate = fileData.rows[0].date_pinned;
-    console.log("file date: ", fileDate);
+    // All the other information provided by our component
+    console.log("file date: ", body.date);
     console.log("address: ", body.address);
     console.log("cid: ", body.cid);
 
+    // Recreate the message used in the signature
     const message = {
       address: body.address,
       cid: body.cid,
-      date: fileDate,
+      date: body.date,
     };
     console.log(message);
 
+    // Verify the signature
     const verify = await verifyTypedData({
       address: body.address as "0x",
       domain: domain as any,
@@ -58,6 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     console.log(verify);
 
+    // Returns true or false
     return NextResponse.json(verify, { status: 200 });
   } catch (error) {
     console.log(error);
