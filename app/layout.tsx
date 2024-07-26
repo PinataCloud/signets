@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   title: "SIGNETS",
   description: "Share cyptographically verified content",
   icons: {
-    apple: "/favicon.png",
-    shortcut: "/favicon.png",
-    icon: "/favicon.png",
+    apple: "https://www.signets.cloud/favicon.png",
+    shortcut: "https://www.signets.cloud/favicon.png",
+    icon: "https://www.signets.cloud/favicon.png",
   },
   openGraph: {
     title: "SIGNETS",
