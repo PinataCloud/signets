@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     // Get signature via the gateway
     const signatureReq = await fetch(
-      `https://${process.env.GATEWAY_URL}/ipfs/${body.cid}`,
+      `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${body.cid}`,
       {
         method: "HEAD",
       },
