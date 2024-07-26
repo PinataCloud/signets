@@ -13,7 +13,32 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "SIGNETS",
-  description: "Share and verify content",
+  description: "Share cyptographically verified content",
+  icons: {
+    apple: "/favicon.png",
+    shortcut: "/favicon.png",
+    icon: "/favicon.png",
+  },
+  openGraph: {
+    title: "SIGNETS",
+    description: "Share cyptographically verified content",
+    url: "https://signets.cloud",
+    siteName: "SIGNETS",
+    images: [`https://www.signets.cloud/og.png`],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SIGNETS",
+    description: "Share cyptographically verified content",
+    images: [`https://www.signets.cloud/og.png`],
+  },
+  other: {
+    "fc:frame": "vNext",
+    "fc:frame:image": "https://www.signets.cloud/og.png",
+    "fc:frame:button:1": "To go App",
+    "fc:frame:button:1:action": "link",
+    "fc:frame:button:1:target": "https://www.signets.cloud",
+  },
 };
 
 export default function RootLayout({
