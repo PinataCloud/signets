@@ -59,7 +59,7 @@ export function CidView({ data, cid }: any) {
       });
       if (!verifyReq.ok) {
         setVerified(false);
-        setLoading(false);
+        setVerifyLoading(false);
         setComplete(true);
         return;
       }

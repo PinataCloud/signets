@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { verifySession } from "@/utils/session";
-import { verifyTypedData } from "viem";
+import { verifyTypedData, recoverTypedDataAddress, getAddress } from "viem";
 import { domain, types } from "@/utils/712";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +29,23 @@ export async function POST(req: NextRequest, res: NextResponse) {
       date: body.date,
     };
     console.log(message);
+
+    const address = await recoverTypedDataAddress({
+      domain: domain as any,
+      types: types,
+      primaryType: "Sign",
+      message,
+      signature: signature as "0x",
+    });
+
+    console.log("Address: ", address);
+
+    if (address != getAddress(body.address)) {
+      return NextResponse.json(
+        { text: "Address does not match" },
+        { status: 401 },
+      );
+    }
 
     // Verify the signature
     const verify = await verifyTypedData({
