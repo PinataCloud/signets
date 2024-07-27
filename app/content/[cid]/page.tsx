@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { cid: string } }) {
   const data = await getData(cid);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-24 gap-24">
+    <main className="flex min-h-screen flex-col items-center justify-start pt-24 gap-24">
       {/* Passing file into the CidView component */}
       <CidView cid={cid} data={data} />
     </main>

@@ -134,7 +134,7 @@ export function CidView({ data, cid }: any) {
 
   return (
     <Dialog>
-      <Card className="w-[400px] p-4 flex flex-col gap-6 justify-between items-center">
+      <Card className="w-[350px] sm:w-[400px] p-4 flex flex-col gap-6 justify-between items-center">
         <Header />
         <div className="flex flex-col gap-1 items-center justify-center">
           <FileIcon className="w-16 h-16" />

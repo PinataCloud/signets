@@ -10,7 +10,7 @@ export default function Home() {
   const { ready, authenticated } = usePrivy();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-24 gap-24">
+    <main className="flex min-h-screen flex-col items-center justify-start pt-24 gap-24">
       {ready && !authenticated && (
         <>
           <div className="flex flex-col items-center gap-2">
@@ -21,7 +21,7 @@ export default function Home() {
         </>
       )}
       {authenticated && (
-        <Card className="w-[400px] p-4 flex flex-col gap-4 justify-between">
+        <Card className="w-[350px] sm:w-[400px] p-4 flex flex-col gap-4 justify-between">
           <Header />
           <UploadForm />
         </Card>
