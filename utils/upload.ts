@@ -1,3 +1,10 @@
+import { PinataSDK } from "pinata";
+
+const pinata = new PinataSDK({
+  pinataJwt: `${process.env.PINATA_JWT}`,
+  pinataGateway: process.env.NEXT_PUBLIC_GATEWAY_URL,
+});
+
 export const generatePinataKey = async (accessToken: string | null) => {
   try {
     const tempKey = await fetch("/api/key", {
@@ -15,40 +22,18 @@ export const generatePinataKey = async (accessToken: string | null) => {
   }
 };
 
-export async function uploadFile(
-  selectedFile: any,
-  keyToUse: string,
-  name?: string,
-) {
+export async function uploadFile(selectedFile: any, keyToUse: string, name?: string) {
   try {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    if (name) {
-      formData.append("pinataMetadata", JSON.stringify({ name: name }));
-    }
-
-    const options = JSON.stringify({
-      cidVersion: 1,
-    });
-    formData.append("pinataOptions", options);
-
-    const uploadRes = await fetch(
-      `${process.env.NEXT_PUBLIC_PINATA_URL}/pinning/pinFileToIPFS`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${keyToUse}`,
-        },
-        body: formData,
-      },
-    );
-    if (uploadRes.status !== 200) {
+    const uploadRes = await pinata.upload
+      .file(selectedFile)
+      .addMetadata({
+        name: name || selectedFile.name,
+      })
+      .key(keyToUse);
+    if (!uploadRes) {
       throw Error;
     }
-    const uploadResJson = await uploadRes.json();
-    console.log(uploadResJson);
-    return uploadResJson;
+    return uploadRes;
   } catch (error) {
     console.log("Error uploading file:", error);
   }
