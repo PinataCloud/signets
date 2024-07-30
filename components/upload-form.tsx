@@ -4,12 +4,7 @@ import { generatePinataKey, uploadFile } from "@/utils/upload";
 import { Button } from "./ui/button";
 import { getAccessToken, usePrivy, useWallets } from "@privy-io/react-auth";
 import { useState } from "react";
-import {
-  ReloadIcon,
-  CheckCircledIcon,
-  CopyIcon,
-  CheckIcon,
-} from "@radix-ui/react-icons";
+import { ReloadIcon, CheckCircledIcon, CopyIcon, CheckIcon } from "@radix-ui/react-icons";
 import { Input } from "./ui/input";
 import { domain, types } from "@/utils/712";
 import { LoginButton } from "./login-button";
@@ -64,8 +59,8 @@ export function UploadForm() {
       // Prepare the message to be signed
       const message = {
         address: user?.wallet?.address,
-        cid: uploadData.IpfsHash,
-        date: uploadData.Timestamp,
+        cid: uploadData?.IpfsHash,
+        date: uploadData?.Timestamp,
       };
       // Prepare the sign data payload
       const typedData = {
@@ -98,7 +93,7 @@ export function UploadForm() {
         },
         body: JSON.stringify({
           signature: signature,
-          IpfsHash: uploadData.IpfsHash,
+          IpfsHash: uploadData?.IpfsHash,
         }),
       });
       if (sign.status === 401) {
@@ -111,7 +106,7 @@ export function UploadForm() {
       }
       const signConfirm = await sign.json();
       console.log(signConfirm);
-      setCid(uploadData.IpfsHash);
+      setCid(uploadData?.IpfsHash!);
       setLoading(false);
       setComplete(true);
     } catch (error) {
@@ -137,9 +132,7 @@ export function UploadForm() {
     <div className="flex flex-col gap-2 justify-center items-center w-full">
       {!complete && (
         <>
-          <p className="my-6">
-            Upload a file and sign it with your wallet to verify it.
-          </p>
+          <p className="my-6">Upload a file and sign it with your wallet to verify it.</p>
           <Input id="file-upload" onChange={fileHandler} type="file" />
           {loading ? (
             ButtonLoading()
@@ -168,9 +161,7 @@ export function UploadForm() {
               />
             </div>
             <Button
-              onClick={() =>
-                copyToClipboard(`https://signets.cloud/content/${cid}`)
-              }
+              onClick={() => copyToClipboard(`https://signets.cloud/content/${cid}`)}
               type="submit"
               size="sm"
               className="px-3"
