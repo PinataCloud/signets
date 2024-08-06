@@ -35,9 +35,12 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": "vNext",
     "fc:frame:image": "https://www.signets.cloud/og.png",
-    "fc:frame:button:1": "To go App",
+    "fc:frame:button:1": "Read Tutorial",
     "fc:frame:button:1:action": "link",
-    "fc:frame:button:1:target": "https://www.signets.cloud",
+    "fc:frame:button:1:target": "https://pinata.cloud/blog/how-to-build-an-app-that-signs-verifies-content/",
+    "fc:frame:button:2": "To go App",
+    "fc:frame:button:2:action": "link",
+    "fc:frame:button:2:target": "https://www.signets.cloud",
   },
 };
 
